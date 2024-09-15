@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Greenwich",
+  "version": "1.0",
+  "description": "Greenwich allows users to suggest related reading and view suggestions made by others for any webpage.",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "storage",
+    "webNavigation",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+     
+    }
+  },
+"icons": {
+    "16": "/16.png",  
+    "48": "/48.png",   
+    "128": "/128.png"  
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"],
+      "run_at": "document_end",
+      "css": ["style.css"]
+    }
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*", "styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
