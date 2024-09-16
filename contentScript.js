@@ -1,11 +1,11 @@
+// Load existing post-its when the page loads
 window.onload = () => {
     console.log('loading page');
-    // Add a 2-second delay before calling the function
+    // Add a 1-second delay before calling the function
     setTimeout(() => {
         loadAndDisplayPostIts();
-    }, 1000); // 2000 milliseconds = 2 seconds
+    }, 1500); 
 };
-
 // Inject CSS for post-it notes (only once)
 const style = document.createElement('style');
 style.textContent = `
@@ -51,64 +51,73 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         createPostItNote(message.text, message.url);
     }
 });
-// this inserts notepage superscripts for existing suggestions from our database when a website loads
-function createExistingNotes(section, url, description) {
 
-    const superscript = document.createElement('sup');
-    superscript.textContent = '📄'; // Or any other symbol you prefer
-    superscript.id = 'post-it-note';
-    superscript.style.color = 'green';
-    superscript.style.cursor = 'pointer';
-    superscript.style.fontSize = '0.8em';
-    superscript.style.marginLeft = '5px';
+// Function to recursively search text nodes and insert superscript
+function searchAndInsert(rootNode, section, url, description) {
+    if (rootNode.nodeType === Node.TEXT_NODE) {
+        const textContent = rootNode.textContent;
+        const sectionIndex = textContent.indexOf(section);
+        if (sectionIndex !== -1) {
+            // Split text content into three parts
+            const beforeText = textContent.slice(0, sectionIndex);
+            const sectionText = textContent.slice(sectionIndex, sectionIndex + section.length);
+            const afterText = textContent.slice(sectionIndex + section.length);
 
-    // Function to recursively search text nodes and insert superscript and adds an event listener for when they are clicked, which calls showPostItNote
-    function searchAndInsert(rootNode) {
-        if (rootNode.nodeType === Node.TEXT_NODE) {
-            const textContent = rootNode.textContent;
-            const sectionIndex = textContent.indexOf(section);
-            if (sectionIndex !== -1) {
-                // Split text content into three parts
-                const beforeText = textContent.slice(0, sectionIndex);
-                const sectionText = textContent.slice(sectionIndex, sectionIndex + section.length);
-                const afterText = textContent.slice(sectionIndex + section.length);
+            // Create new nodes
+            const textBefore = document.createTextNode(beforeText);
+            const textSection = document.createTextNode(sectionText);
+            const textAfter = document.createTextNode(afterText);
 
-                // Create new nodes
-                const textBefore = document.createTextNode(beforeText);
-                const textSection = document.createTextNode(sectionText);
-                const textAfter = document.createTextNode(afterText);
+            // Create a new document fragment to hold the new nodes
+            const fragment = document.createDocumentFragment();
+            fragment.appendChild(textBefore);
+            fragment.appendChild(textSection);
 
-                // Create a new document fragment to hold the new nodes
-                const fragment = document.createDocumentFragment();
-                fragment.appendChild(textBefore);
-                fragment.appendChild(textSection);
-                fragment.appendChild(superscript); // Add superscript after the section text
-                fragment.appendChild(textAfter);
+            // Create and add the superscript
+            const superscript = document.createElement('sup');
+            superscript.textContent = '📄';
+            superscript.style.color = 'green';
+            superscript.style.cursor = 'pointer';
+            superscript.style.fontSize = '0.8em';
+            superscript.style.marginLeft = '5px';
+            superscript.classList.add('post-it-note-sup');
+            superscript.dataset.url = url;
+            superscript.dataset.description = description;
 
-                // Replace the original text node with the new fragment
-                rootNode.parentNode.replaceChild(fragment, rootNode);
-                document.getElementById('post-it-note').addEventListener('click', () => showPostItNote(description, url, superscript));
-                return true; // Stop searching as we have inserted the superscript
-            }
-        } else if (rootNode.nodeType === Node.ELEMENT_NODE) {
-            // Recursively search child nodes
-            for (let i = 0; i < rootNode.childNodes.length; i++) {
-                if (searchAndInsert(rootNode.childNodes[i])) {
-                    return true;
-                }
+            fragment.appendChild(superscript);
+            fragment.appendChild(textAfter);
+
+            // Replace the original text node with the new fragment
+            rootNode.parentNode.replaceChild(fragment, rootNode);
+
+            // Add click event listener to the superscript
+            superscript.addEventListener('click', () => showPostItNote(description, url, superscript));
+
+            return true; // Stop searching as we have inserted the superscript
+        }
+    } else if (rootNode.nodeType === Node.ELEMENT_NODE) {
+        // Recursively search child nodes
+        for (let i = 0; i < rootNode.childNodes.length; i++) {
+            if (searchAndInsert(rootNode.childNodes[i], section, url, description)) {
+                return true;
             }
         }
-        return false;
-        
     }
-
-    // Start searching from the body or a specific root element
-    searchAndInsert(document.body);
+    return false;
 }
- // Function to show the post-it note when a superscript is clicked and remove it when user clicks away
- function showPostItNote(selectedText, url, superscript) {
+
+// Create and display post-it notes for existing suggestions from the database when a website loads
+function createExistingNotes(section, url, description) {
+    searchAndInsert(document.body, section, url, description);
+}
+
+// Function to show the post-it note when a superscript is clicked and remove it when user clicks away
+function showPostItNote(selectedText, url, superscript) {
+    console.log('show post it called');
+    
     // Remove existing post-it notes if any
-document.querySelectorAll('.post-it-note').forEach(el => el.remove());
+    document.querySelectorAll('.post-it-note').forEach(el => el.remove());
+    
     // Create the post-it note element
     const postIt = document.createElement('div');
     postIt.className = 'post-it-note';
@@ -126,8 +135,9 @@ document.querySelectorAll('.post-it-note').forEach(el => el.remove());
     
     // Add post-it note to the document
     document.body.appendChild(postIt);
-     // Function to handle clicks outside of the post-it note
-     function handleClickOutside(event) {
+    
+    // Function to handle clicks outside of the post-it note
+    function handleClickOutside(event) {
         if (!postIt.contains(event.target) && event.target !== superscript) {
             postIt.remove();
             document.removeEventListener('click', handleClickOutside);
@@ -138,14 +148,14 @@ document.querySelectorAll('.post-it-note').forEach(el => el.remove());
     document.addEventListener('click', handleClickOutside);
 }
 
-// this function is only called when a user first adds a link suggestion, it adds the notepage superscript to indicate a suggestion has been made
+// This function is only called when a user first adds a link suggestion
 function createPostItNote(selectedText, url) {
     console.log('called create post it note function');
     
     // Create the superscript element
     const superscript = document.createElement('sup');
-    superscript.textContent = '📄'; // Or any other symbol you prefer
-    superscript.id = 'post-it-note';
+    superscript.textContent = '📄';
+    superscript.id = 'temp-post-it-note';
     superscript.style.color = 'green';
     superscript.style.cursor = 'pointer';
     superscript.style.fontSize = '0.8em';
@@ -164,19 +174,13 @@ function createPostItNote(selectedText, url) {
         const newRange = document.createRange();
         newRange.setStart(endContainer, endOffset);
         newRange.collapse(true);
-        
-        // Create a fragment from the superscript's outerHTML
-        const fragment = newRange.createContextualFragment(superscript.outerHTML);
-        const insertedSup = fragment.querySelector('sup'); // Get the actual <sup> from the fragment
+        newRange.insertNode(superscript);
 
         // Add the event listener to the inserted <sup> element
-        insertedSup.addEventListener('click', function () {
+        superscript.addEventListener('click', function () {
             console.log('post it note superscript was clicked!');
-            showPostItNote(selectedText, url, insertedSup)
+            showPostItNote(selectedText, url, superscript);
         });
-
-        // Insert the fragment (with the event listener attached) into the DOM
-        newRange.insertNode(superscript);
     }
 }
 
@@ -190,11 +194,6 @@ function loadAndDisplayPostIts() {
             createExistingNotes(postIt.highlighted_text, postIt.suggested_link, postIt.description);
         });
     });
-    
 }
-
-
-
-
 
 
