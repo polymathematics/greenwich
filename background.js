@@ -22,14 +22,17 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 // Listener for when a new site is loaded
 chrome.webNavigation.onCommitted.addListener(function(details) {
     if (details.frameId === 0) { // Ensure it's the main frame
-        chrome.storage.local.get(['source_url'], (result) => {
-            
-            const url = result.source_url || '';
-            fetchPostIts(url);
-        })
-          }
-        
-    });
+
+        // Get the active tab in the current window
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            if (tabs.length > 0) {
+                const url = tabs[0].url; // Get the URL of the active tab
+                console.log(url);
+                fetchPostIts(url); // Pass the URL into fetchPostIts
+            }
+        });
+    }
+});
 
 // Function to fetch post-it notes from the server
 function fetchPostIts(url) {
