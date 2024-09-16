@@ -2,13 +2,12 @@
   "manifest_version": 3,
   "name": "Greenwich",
   "version": "1.0",
-  "description": "Greenwich allows users to suggest related reading and view suggestions made by others for any webpage.",
+  "description": "Greenwich allows users to suggest related links and view suggestions made by others for any webpage.",
   "permissions": [
     "contextMenus",
     "activeTab",
     "storage",
-    "webNavigation",
-    "scripting"
+    "webNavigation"
   ],
   "background": {
     "service_worker": "background.js"
