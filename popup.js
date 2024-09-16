@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                     console.log('Post-it note saved:', data);
+                    window.close();
                 })
                 .catch(error => {
                     console.error('Error saving post-it note:', error);
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 alert('Please fill in all required fields.');
             }
+
         });
     });
 
