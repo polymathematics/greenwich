@@ -9,9 +9,9 @@ GET endpoint for grabbing all existing suggested links for a given webpage.
 POST endpoint for adding a new suggested link for a given webpage.
 
 Requires:
-source_url (the url of the webpage a suggestion is being made for)
-suggestion_id (a randomized unique id)
-highlighted_text (the portion of text a suggestion is being added to, the superscript will appear on this section)
-suggested_link (the related link being suggested)
-description (a brief description of why a suggested link is being added)
-timestamp (optional, time of suggestion)
+- source_url (the url of the webpage a suggestion is being made for)
+- suggestion_id (a randomized unique id)
+- highlighted_text (the portion of text a suggestion is being added to, the superscript will appear on this section)
+- suggested_link (the related link being suggested)
+- description (a brief description of why a suggested link is being added)
+- timestamp (optional, time of suggestion)
