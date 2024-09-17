@@ -75,7 +75,7 @@ function searchAndInsert(rootNode, section, url, description) {
 
             // Create and add the superscript
             const superscript = document.createElement('sup');
-            superscript.textContent = '📄';
+            superscript.textContent = '🚇';
             superscript.style.color = 'green';
             superscript.style.cursor = 'pointer';
             superscript.style.fontSize = '0.8em';
