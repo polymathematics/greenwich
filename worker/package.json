@@ -1,0 +1,18 @@
+{
+  "name": "greenwich-worker",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Greenwich API: stores and serves related-link suggestions for web pages.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init:local": "wrangler d1 execute greenwich --local --file=./schema.sql",
+    "db:init:remote": "wrangler d1 execute greenwich --remote --file=./schema.sql",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.158.0"
+  }
+}

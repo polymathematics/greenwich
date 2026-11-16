@@ -1,0 +1,13 @@
+name = "greenwich"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+
+# Created with:  npx wrangler d1 create greenwich
+# Paste the database_id that command prints into the field below.
+[[d1_databases]]
+binding = "DB"
+database_name = "greenwich"
+database_id = "PASTE_DATABASE_ID_HERE"
+
+[observability]
+enabled = true

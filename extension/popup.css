@@ -1,0 +1,175 @@
+:root {
+    --greenwich-green: #41ad38;
+    --greenwich-green-dark: #2e7d27;
+    --greenwich-cream: #e8ffe6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 320px;
+    background-color: var(--greenwich-green);
+    font-family: Futura, Avenir, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+form {
+    margin: 0;
+}
+
+#form-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--greenwich-green);
+}
+
+p {
+    margin: 8px;
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.title {
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.label {
+    margin-bottom: 2px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+    text-transform: uppercase;
+}
+
+#selected-text {
+    margin: 0 8px 8px;
+    padding: 6px 8px;
+    max-height: 72px;
+    overflow-y: auto;
+    border-left: 3px solid #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+}
+
+.notice {
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+#fields {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="url"],
+textarea {
+    margin: 6px 8px;
+    padding: 6px;
+    width: auto;
+    border: 2px dashed #ffffff;
+    border-radius: 3px;
+    background-color: var(--greenwich-green);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+/* The original placeholder was pure white on green, which read as filled-in
+   text. Dimming it keeps the look but distinguishes hint from value. */
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+input:focus,
+textarea:focus {
+    border-style: solid;
+    outline: 2px solid #ffffff;
+    outline-offset: 1px;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+    border-color: #ffd5d5;
+}
+
+.status {
+    margin: 0 8px 8px;
+    padding: 6px 8px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.18);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.status[data-kind="error"] {
+    background: #7d1f1f;
+    color: #ffffff;
+}
+
+.status[data-kind="success"] {
+    background: var(--greenwich-green-dark);
+    color: #ffffff;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 56px;
+    background-color: var(--greenwich-cream);
+}
+
+button {
+    margin: 4px;
+    padding: 6px 10px;
+    border: none;
+    background: none;
+    color: var(--greenwich-green-dark);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    font-weight: bold;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: progress;
+}
+
+#logo {
+    margin: 0 10px 0 0;
+    color: var(--greenwich-green-dark);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

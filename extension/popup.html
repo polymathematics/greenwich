@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Suggest a Hyperlink</title>
+    <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+    <form id="suggest-form" novalidate>
+        <div id="form-container">
+            <p class="title">suggest a hyperlink</p>
+
+            <div id="selection-block" hidden>
+                <p class="label">for this passage</p>
+                <blockquote id="selected-text"></blockquote>
+            </div>
+
+            <p id="no-selection" class="notice" hidden>
+                Select some text on a page, then right-click it and choose
+                &ldquo;Suggest a hyperlink for this passage&rdquo;.
+            </p>
+
+            <div id="fields">
+                <label class="sr-only" for="link-url">Link</label>
+                <input type="url" id="link-url" name="link-url" placeholder="link"
+                       autocomplete="off" spellcheck="false" required />
+
+                <label class="sr-only" for="description">Description</label>
+                <textarea id="description" name="description" rows="4" maxlength="1000"
+                          placeholder="brief description of how this link is related" required></textarea>
+            </div>
+
+            <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+
+            <div class="button-container">
+                <button type="submit" id="submit-btn">submit</button>
+                <h2 id="logo">greenwich</h2>
+            </div>
+        </div>
+    </form>
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Greenwich",
+  "version": "2.0.0",
+  "description": "Greenwich allows users to suggest related links and view suggestions made by others for any webpage.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Greenwich",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "16.png",
+    "48": "48.png",
+    "128": "128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["anchoring.js", "contentScript.js"],
+      "css": ["style.css"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}

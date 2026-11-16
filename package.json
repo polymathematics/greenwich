@@ -1,0 +1,15 @@
+{
+  "name": "greenwich",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Greenwich: suggest and view related links for any web page.",
+  "scripts": {
+    "test": "node --test test/*.test.js && npm --prefix worker test",
+    "test:extension": "node --test test/*.test.js",
+    "test:worker": "npm --prefix worker test"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  }
+}
