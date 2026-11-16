@@ -1,8 +1,9 @@
 # Greenwich
 
-A Chrome extension for suggesting related links on any web page, and seeing the
-suggestions other people have left. Select a passage, right-click, suggest a
-link; a 🚇 marker appears after that passage for everyone who visits the page.
+Suggest related links for any webpage and view existing suggestions from other
+users. Select a passage, right-click, suggest a link; a 🚇 marker appears after
+that passage for everyone who visits the page, and clicking it shows the
+suggestion. We call this collective contextualization.
 
 ```
 extension/   the Chrome extension (MV3) — load this directory unpacked

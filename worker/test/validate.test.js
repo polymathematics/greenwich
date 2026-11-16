@@ -32,7 +32,7 @@ test('normalizeUrl keeps meaningful query params and orders them stably', () => 
 test('normalizeUrl rejects non-page and hostile URLs', () => {
   for (const bad of [
     'chrome://settings',
-    'file:///Users/jake/secret.txt',
+    'file:///etc/passwd',
     'about:blank',
     'javascript:alert(1)',
     'data:text/html,<script>alert(1)</script>',
